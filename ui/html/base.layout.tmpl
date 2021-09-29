@@ -1,0 +1,29 @@
+{{define "base"}}
+<!-- this defines as base and the name of the template should be distinic and ation the name on every page -->
+<!doctype html>
+<html lang='en'>
+    <head>
+        <meta charset='utf-8'>
+        <!--        dot at the end means that you pass any dynamic data-->
+        <title>{{template "title" .}} - Snippetbox</title>
+        <!--        link to css files-->
+        <link rel="stylesheet" href="../static/css/main.css">
+        <link rel="shortcut icon" href="../static/img/alive.png" type="image/x-">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ub">
+    </head>
+    <body>
+        <header>
+            <a href="/"> <img src=../static/img/logo.png> </a>
+        </header>
+        <nav>
+            <a href='/'>Home</a>
+        </nav>
+        <section>
+            <!--            template body of paticular point in html-->
+            {{template "body" .}}
+        </section>
+        {{template "footer" .}}
+        <script src="../static/js/main.js" type = "text/javascript"></script>
+    </body>
+</html>
+{{end}}
