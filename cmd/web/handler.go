@@ -52,5 +52,17 @@ func (app *application) createUser(w http.ResponseWriter, r *http.Request) {
 		app.clientError(w, http.StatusMethodNotAllowed)
 		return
 	}
-	w.Write([]byte("Create a user"))
+	// Create some variables holding dummy data. We'll remove these later on
+	// during the build.
+	title := "hello"
+	content := "O snail\nClimb Mount Fuji,\nBut slowly, slowly!\n\n– Kobayashi Issa"
+	expires := "5"
+	// ID of the new record back.
+	id, err := app.snippets.Insert(title, content, expires)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+	// Redirect the user to the relevant page for the snippet.
+	http.Redirect(w, r, fmt.Sprintf("/user?id=%d", id), http.StatusSeeOther)
 }

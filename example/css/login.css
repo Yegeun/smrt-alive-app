@@ -1,5 +1,5 @@
 body {
-    background-color: #F3EBF6;
+    /*background-color: #F3EBF6;*/
     font-family: 'Ubuntu', sans-serif;
 }
 
@@ -102,6 +102,13 @@ a {
     .main {
         border-radius: 0px;
     }
+}
+
+#logo{
+    position:fixed;
+    top:0;
+    left:0;
+}
 
 
 
