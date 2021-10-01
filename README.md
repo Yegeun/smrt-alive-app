@@ -10,6 +10,9 @@ https://talks.golang.org/2014/names.slide#1
 ## Run 
 go run cmd/web/* -addr=":{insert address number here}"
 
+curl -iL -X POST http://localhost:4000/user/create
+
+
 ## MySQL
 This webiste is build in mysql 
 to access type sudo mysql to access the terminal
@@ -46,6 +49,16 @@ CREATE TABLE students (
 ## TO access sql 
 sudo mysql
 USE userbox
+
+## conversion from go to mysql
+CHAR , VARCHAR and TEXT map to string .
+BOOLEAN maps to bool .
+INT maps to int ; BIGINT maps to int64 .
+DECIMAL and NUMERIC map to float .
+TIME , DATE and TIMESTAMP map to time.Time .
+A quirk of our MySQL driver is that we need to use the parseTime=true parameter in our
+DSN to force it to convert TIME and DATE fields to time.Time . Otherwise it returns these as
+[]byte objects. This is one of the many driver-specific parameters that it offers
 
 
 https://wtools.io/generate-sql-create-table
