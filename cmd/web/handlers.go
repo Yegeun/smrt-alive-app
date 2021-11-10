@@ -49,15 +49,23 @@ func (app *application) showUser(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) createUser(w http.ResponseWriter, r *http.Request) {
 
-	title := "O snail"
-	content := "O snail\nClimb Mount Fuji,\nBut slowly, slowly!\n\n– Kobayashi Issa"
-	expires := "7"
+	err := r.ParseForm()
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	// Use the r.PostForm.Get() method to retrieve the relevant data fields
+	title 	:= r.PostForm.Get("title")
+	content := r.PostForm.Get("content")
+	expires := r.PostForm.Get("expires")
+	// Create a new snippet record in the database using the form data.
 	id, err := app.snippets.Insert(title, content, expires)
 	if err != nil {
 		app.serverError(w, err)
 		return
 	}
-	// Change the redirect to use the new semantic URL style of /snippet/:id
+
 	http.Redirect(w, r, fmt.Sprintf("/user/%d", id), http.StatusSeeOther)
 
 }
