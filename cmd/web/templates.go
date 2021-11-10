@@ -2,10 +2,10 @@ package main
 
 import (
 	"html/template"
-	"net/url"
 	"path/filepath"
 	"time"
 
+	"github.com/Yegeun/smrt-alive-app/pkg/forms"
 	"github.com/Yegeun/smrt-alive-app/pkg/models"
 )
 
@@ -68,8 +68,7 @@ func newTemplateCache(dir string) (map[string]*template.Template, error){
 //to it as the build progresses.
 type templateData struct {
 	CurrentYear int
-	FormData url.Values
-	FormErrors map[string]string
+	Form *forms.Form
 	Snippet *models.Snippet
 	Snippets []*models.Snippet
 }
