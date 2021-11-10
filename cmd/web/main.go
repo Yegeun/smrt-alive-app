@@ -7,10 +7,13 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/Yegeun/smrt-alive-app/pkg/models/mysql"
 
 	_ "github.com/go-sql-driver/mysql" // New import
+	"github.com/golangcollege/sessions"
+
 )
 
 // Add a snippets field to the application struct. This will allow us to
@@ -18,6 +21,7 @@ import (
 type application struct {
 	errorLog *log.Logger
 	infoLog *log.Logger
+	session *sessions.Session
 	snippets *mysql.SnippetModel
 	templateCache map[string]*template.Template
 }
@@ -28,6 +32,7 @@ func main() {
 	// Define a new command-line flag for the MySQL DSN string.
 	dsn := flag.String("dsn", "web:whaleredchurch@/userbox?parseTime=true", "MySQL data source name")
 
+	secret := flag.String("secret", "s9Jkh+pPbpbHbS*+9Hk8qGEhTzfpa@ae", "Secret key")
 	flag.Parse()
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
@@ -49,11 +54,18 @@ func main() {
 		errorLog.Fatal(err)
 	}
 
+	// Use the sessions.New() function to initialize a new session manager,
+	// passing in the secret key as the parameter. Then we configure it so
+	// sessions always expires after 6 hours.
+	session := sessions.New([]byte(*secret))
+	session.Lifetime = 6 * time.Hour
+
 	// Initialize a mysql.SnippetModel instance and add it to the application
 	// dependencies.
 	app := &application{
 		errorLog: errorLog,
 		infoLog: infoLog,
+		session: session,
 		snippets: &mysql.SnippetModel{DB: db},
 		templateCache: templateCache,
 	}
