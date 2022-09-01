@@ -2,6 +2,8 @@
 
 ## How to start a Project
 
+A proof of concept testing out the GO libraires in Web. Chose not to develop this fully in GO as support was getting limited.
+
 go mod init {url of the github project}
 
 ## SMRT alive app
